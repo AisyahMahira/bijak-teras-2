@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuiz Bijak Teras: Sesi 2!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Comic Neue', cursive;
+            background: linear-gradient(135deg, #FFD700, #FF69B4, #87CEEB, #98FB98); /* Ceria gradient */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        .quiz-container {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 750px;
+            padding: 40px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 6px dashed #FF4500; /* Main border */
+            animation: bounceIn 1s ease-out; /* Main container animation */
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        /* Confetti Animation */
+        .confetti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 10;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00; /* Red */
+            animation: confetti-fall 3s linear forwards;
+            opacity: 0;
+            border-radius: 50%;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0.8; }
+        }
+
+        /* Header */
+        h1 {
+            font-family: 'Chewy', cursive;
+            color: #FF4500; /* Orange Red */
+            margin-bottom: 30px;
+            font-size: 3.8em;
+            text-shadow: 4px 4px #FFFF00; /* Yellow shadow */
+            animation: fadeInDown 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Question Box */
+        .question-box {
+            background-color: #FFFACD; /* Lemon Chiffon */
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 3px solid #FFD700; /* Gold */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            text-align: left;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        @keyframes slideInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-box p {
+            font-size: 1.8em;
+            color: #4B0082; /* Indigo */
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        /* Options */
+        .options label {
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Vertically align radio and text */
+            background-color: #E0FFFF; /* Light Cyan */
+            border: 2px solid #6A5ACD; /* Slate Blue */
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            font-size: 1.4em;
+            transition: all 0.3s ease;
+            color: #36454F; /* Charcoal */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .options label:hover {
+            background-color: #ADD8E6; /* Light Blue */
+            transform: translateY(-5px) scale(1.02); /* Lebih responsif */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.8); /* Saiz radio button lebih besar */
+            accent-color: #FF69B4; /* Warna radio button */
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            background-color: #32CD32; /* Lime Green */
+            color: white;
+            padding: 18px 35px;
+            border: none;
+            border-radius: 12px;
+            font-size: 2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 10px #228B22; /* Darker green for pressed effect */
+            margin-top: 25px;
+            animation: pulse 1.5s infinite; /* Pulsating effect */
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 10px #228B22; }
+            50% { transform: scale(1.03); box-shadow: 0 12px #228B22; }
+            100% { transform: scale(1); box-shadow: 0 10px #228B22; }
+        }
+
+        .submit-btn:hover {
+            background-color: #3CB371; /* Medium Sea Green */
+            transform: translateY(-3px);
+            box-shadow: 0 12px #228B22;
+            animation: none; /* Stop pulse on hover */
+        }
+
+        .submit-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 5px #228B22;
+        }
+
+        .submit-btn:disabled {
+            background-color: #888;
+            box-shadow: 0 8px #555;
+            cursor: not-allowed;
+            animation: none;
+            filter: grayscale(50%); /* Kelihatan kelabu dan kurang menarik */
+        }
+
+        /* Result Box */
+        .result-box {
+            margin-top: 40px;
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #191970; /* Midnight Blue */
+            display: none; /* Sembunyikan pada mulanya */
+            background-color: #F0FFF0; /* Honeydew */
+            border: 4px solid #00BFFF; /* Deep Sky Blue */
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        #score {
+            color: #FF4500; /* Orange Red */
+            font-size: 1.2em;
+        }
+        #feedback-message {
+            margin-top: 15px;
+            font-size: 0.8em;
+            line-height: 1.5;
+            font-style: italic;
+            color: #555;
+        }
+        .credits {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #666;
+            font-family: 'Comic Neue', cursive;
+        }
+
+        /* Styles for correct/incorrect answers */
+        .correct-answer {
+            background-color: #98FB98 !important; /* Hijau muda */
+            border-color: #228B22 !important; /* Hijau tua */
+            font-weight: bold;
+            color: #006400 !important;
+        }
+
+        .incorrect-answer {
+            background-color: #FFB6C1 !important; /* Merah jambu muda */
+            border-color: #FF0000 !important; /* Merah */
+            font-weight: bold;
+            color: #8B0000 !important;
+        }
+
+        /* Untuk memastikan input radio tidak dapat dipilih lagi selepas submit */
+        .options input[type="radio"]:disabled + span {
+            cursor: default;
+        }
+
+        .options label.incorrect-answer input[type="radio"]:checked {
+            accent-color: #DC3545; /* Red for incorrect radio */
+        }
+        .options label.correct-answer input[type="radio"]:checked {
+            accent-color: #28A745; /* Green for correct radio */
+        }
+    </style>
+</head>
+<body>
+    <div class="confetti-container" id="confetti-container"></div>
+    <div class="quiz-container">
+        <h1>Kuiz Bijak Teras: Sesi
